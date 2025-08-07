@@ -310,7 +310,17 @@ export default function Home() {
 
             <div className={styles.benefitsGrid}>
               <div className={styles.benefitCard}>
-                <div className={styles.benefitIcon}>📊</div>
+                <div className={styles.benefitIcon}>
+                  <img
+                    src="/swing.png"
+                    alt="스윙 아이콘"
+                    style={{
+                      width: "60%",
+                      height: "60%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
                 <h3 className={styles.benefitTitle}>한눈에 보는 스윙 차이</h3>
                 <p className={styles.benefitDescription}>
                   AI가 프로와 당신의 스윙 궤적을 시각적으로 보여드립니다.
@@ -320,7 +330,17 @@ export default function Home() {
               </div>
 
               <div className={styles.benefitCard}>
-                <div className={styles.benefitIcon}>🏠</div>
+                <div className={styles.benefitIcon}>
+                  <img
+                    src="/single-person.png"
+                    alt="사람 아이콘"
+                    style={{
+                      width: "60%",
+                      height: "60%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
                 <h3 className={styles.benefitTitle}>혼자서도 완벽한 분석</h3>
                 <p className={styles.benefitDescription}>
                   벽치기할 장소도 없어서 빈 스윙만 하고 계시나요?
@@ -332,7 +352,17 @@ export default function Home() {
               </div>
 
               <div className={styles.benefitCard}>
-                <div className={styles.benefitIcon}>🔒</div>
+                <div className={styles.benefitIcon}>
+                  <img
+                    src="/shield.png"
+                    alt="자물쇠 아이콘"
+                    style={{
+                      width: "60%",
+                      height: "60%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
                 <h3 className={styles.benefitTitle}>100% 개인정보 보호</h3>
                 <p className={styles.benefitDescription}>
                   업로드한 영상과 분석 결과는 오직 본인만 볼 수 있습니다.

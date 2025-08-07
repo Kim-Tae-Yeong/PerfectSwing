@@ -13,6 +13,10 @@ export default function Home() {
   const [topMessage, setTopMessage] = useState({ text: "", type: "" });
   const [bottomMessage, setBottomMessage] = useState({ text: "", type: "" });
   const [statsCount, setStatsCount] = useState(500);
+  const [showTopShareButton, setShowTopShareButton] = useState(false);
+  const [showBottomShareButton, setShowBottomShareButton] = useState(false);
+  const [topShareCopied, setTopShareCopied] = useState(false);
+  const [bottomShareCopied, setBottomShareCopied] = useState(false);
 
   // 이메일 유효성 검사
   const validateEmail = (email) => {
@@ -27,17 +31,44 @@ export default function Home() {
   // 상단 메시지 표시
   const showTopMessage = (text, type) => {
     setTopMessage({ text, type });
-    setTimeout(() => {
-      setTopMessage({ text: "", type: "" });
-    }, 5000);
   };
 
   // 하단 메시지 표시
   const showBottomMessage = (text, type) => {
     setBottomMessage({ text, type });
-    setTimeout(() => {
-      setBottomMessage({ text: "", type: "" });
-    }, 5000);
+  };
+
+  // 링크 복사 함수
+  const copyToClipboard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (err) {
+      console.error("클립보드 복사 실패:", err);
+      return false;
+    }
+  };
+
+  // 상단 공유 링크 복사
+  const handleTopShare = async () => {
+    const shareUrl = window.location.origin;
+    const success = await copyToClipboard(shareUrl);
+
+    if (success) {
+      setTopShareCopied(true);
+      setTimeout(() => setTopShareCopied(false), 2000);
+    }
+  };
+
+  // 하단 공유 링크 복사
+  const handleBottomShare = async () => {
+    const shareUrl = window.location.origin;
+    const success = await copyToClipboard(shareUrl);
+
+    if (success) {
+      setBottomShareCopied(true);
+      setTimeout(() => setBottomShareCopied(false), 2000);
+    }
   };
 
   // 상단 폼 제출 처리
@@ -74,7 +105,7 @@ export default function Home() {
           "사전 예약이 완료되었습니다! 출시되면 가장 먼저 체험해보실 수 있습니다.",
           "success"
         );
-        setTopEmail("");
+        setShowTopShareButton(true);
         setStatsCount((prev) => prev + 1);
       } else {
         showTopMessage(data.message || "오류가 발생했습니다.", "error");
@@ -124,7 +155,7 @@ export default function Home() {
           "사전 예약이 완료되었습니다! 출시되면 가장 먼저 체험해보실 수 있습니다.",
           "success"
         );
-        setBottomEmail("");
+        setShowBottomShareButton(true);
         setStatsCount((prev) => prev + 1);
       } else {
         showBottomMessage(data.message || "오류가 발생했습니다.", "error");
@@ -260,8 +291,56 @@ export default function Home() {
                           }`
                         ]
                       }`}
+                      style={{ textAlign: "center", marginBottom: "16px" }}
                     >
                       {topMessage.text}
+                    </div>
+                  )}
+
+                  {showTopShareButton && (
+                    <div
+                      className={styles.shareContainer}
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        marginTop: "8px",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={handleTopShare}
+                        className={styles.shareButton}
+                        style={{
+                          backgroundColor: topShareCopied
+                            ? "#4CAF50"
+                            : "#007bff",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "8px",
+                          padding: "12px 24px",
+                          fontSize: "14px",
+                          fontWeight: "600",
+                          cursor: "pointer",
+                          transition: "all 0.3s ease",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "8px",
+                        }}
+                      >
+                        {topShareCopied ? (
+                          <>
+                            <span>✅</span>
+                            링크가 복사되었습니다!
+                          </>
+                        ) : (
+                          <>
+                            <span>🔗</span>
+                            지인들과 공유하기
+                          </>
+                        )}
+                      </button>
                     </div>
                   )}
                 </div>
@@ -484,8 +563,56 @@ export default function Home() {
                       }`
                     ]
                   }`}
+                  style={{ textAlign: "center", marginBottom: "16px" }}
                 >
                   {bottomMessage.text}
+                </div>
+              )}
+
+              {showBottomShareButton && (
+                <div
+                  className={styles.shareContainer}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "8px",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={handleBottomShare}
+                    className={styles.shareButton}
+                    style={{
+                      backgroundColor: bottomShareCopied
+                        ? "#4CAF50"
+                        : "#007bff",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "8px",
+                      padding: "12px 24px",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    {bottomShareCopied ? (
+                      <>
+                        <span>✅</span>
+                        링크가 복사되었습니다!
+                      </>
+                    ) : (
+                      <>
+                        <span>🔗</span>
+                        지인들과 공유하기
+                      </>
+                    )}
+                  </button>
                 </div>
               )}
             </form>
